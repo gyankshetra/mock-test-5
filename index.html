@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>BPSC TRE SET 1 - Score Card</title>
+<style>
+:root{--g:#16a34a;--dark:#14532d;--light:#dcfce7}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#fff;min-height:100dvh}
+#s1{background:linear-gradient(180deg,#8fd68f 0%,#eef8ee 50%,#fff 100%);min-height:100dvh;padding:12px}
+.card{border:4px solid var(--g);background:#fff;border-radius:16px;padding:16px;box-shadow:0 8px 20px rgba(22,163,74,.2)}
+.btn{width:100%;background:var(--g);color:#fff;border:none;border-radius:12px;padding:14px;font-weight:900;font-size:16px;margin-top:12px}
+#s2{display:none;background:#b8e6b8;min-height:100dvh}
+.top{background:var(--g);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;border-radius:0 0 16px 16px;font-weight:700}
+.mock{background:var(--light);margin:8px;border-radius:10px;padding:10px;display:flex;justify-content:space-between}
+.time{background:var(--dark);color:#fff;padding:5px 12px;border-radius:20px;font-size:12px}
+.qBox{background:#fff;margin:8px;border-radius:14px;padding:14px}
+.opt{border:2px solid #a5d6a7;border-radius:10px;padding:12px;margin:8px 0;font-size:13.5px;cursor:pointer}
+.opt.sel{border-color:var(--g);background:#c8e6c9}
+.nav{display:flex;gap:8px;margin-top:12px}
+.nav button{flex:1;padding:11px;border-radius:8px;border:1px solid #ccc;background:#fff;font-weight:700}
+.nav button:last-child{background:var(--g);color:#fff;border:none}
+.drawer{background:#fff;border-radius:16px 16px 0 0;padding:12px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:8px}
+.grid div{height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;background:#e8f5e9;border:1px solid #a5d6a7}
+.grid div.done{background:var(--dark);color:#fff}
+.grid div.cur{outline:2px solid var(--g);background:#a5d6a7}
+.submit{width:100%;background:var(--g);color:#fff;border:none;border-radius:28px;padding:14px;font-weight:900;margin-top:10px}
+
+/* SCORE CARD */
+#s3{display:none;background:#f0fdf4;min-height:100dvh;padding:12px}
+.scoreTop{background:var(--g);border-radius:16px;padding:18px;color:#fff;text-align:center}
+.scoreTop h2{font-size:22px}
+.circle{width:90px;height:90px;background:#fff;color:var(--g);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;margin:12px auto}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.stat{background:#fff;border:1.5px solid #a7d5a7;border-radius:12px;padding:12px;text-align:center}
+.stat b{font-size:20px;color:var(--dark);display:block}
+.stat span{font-size:11px;color:#555}
+.resultList{background:#fff;border-radius:12px;padding:12px;margin-top:12px;border:1.5px solid #c8e6c9}
+.rItem{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;font-size:13px}
+.btn2{width:100%;background:var(--dark);color:#fff;border:none;border-radius:12px;padding:14px;font-weight:800;margin-top:10px}
+.btn3{width:100%;background:#fff;color:var(--g);border:2px solid var(--g);border-radius:12px;padding:14px;font-weight:800;margin-top:8px}
+</style>
+</head>
+<body>
+
+<div id="s1">
+<div class="card" style="border:4px solid #16a34a;background:#fff;border-radius:16px;padding:16px">
+<div style="display:inline-flex;background:#dcfce7;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800;color:#14532d">🧪 CHEMISTRY • SET - 1</div>
+<h1 style="color:#14532d;font-size:26px;font-weight:900;margin-top:12px;line-height:1.1">BPSC TRE Chemical Reaction SET 1</h1>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px">
+<div style="background:#f0fdf4;border:1.5px solid #22c55e;border-radius:12px;padding:10px;text-align:center"><b>5 Questions</b></div>
+<div style="background:#f0fdf4;border:1.5px solid #22c55e;border-radius:12px;padding:10px;text-align:center"><b>5 Min</b></div>
+<div style="background:#f0fdf4;border:1.5px solid #22c55e;border-radius:12px;padding:10px;text-align:center"><b>1/3 Neg</b></div>
+</div>
+<button class="btn" onclick="startTest()">START TEST →</button>
+</div>
+
+<div id="s2">
+<div class="top"><span>🎓 Gyankshetra</span><span>☰</span></div>
+<div class="mock"><b>Mock Test 1 • BPSC TRE 4.0</b><span class="time" id="timer">⏱ 05:00</span></div>
+<div class="qBox"><div id="qCount" style="color:var(--g);font-weight:800;font-size:12px"></div><div id="qText" style="font-weight:700;margin:8px 0"></div><div id="opts"></div><div class="nav"><button onclick="prevQ()">← Prev</button><button onclick="nextQ()">Next →</button></div></div>
+<div class="drawer"><div style="display:flex;justify-content:space-between"><b>Questions</b><span id="ansCount">0/5 Answered</span></div><div class="grid" id="grid"></div><button class="submit" onclick="submitTest()">✔ Submit Test</button></div>
+</div>
+
+<div id="s3">
+<div class="scoreTop">
+<h2>🎉 Test Completed!</h2>
+<p style="font-size:12px;margin-top:4px">BPSC TRE Chemical Reaction SET 1</p>
+<div class="circle" id="scoreCircle">0/5</div>
+<p id="percentText" style="font-weight:700">0% Score</p>
+</div>
+
+<div class="stats">
+<div class="stat"><b id="correct">0</b><span>✅ Correct</span></div>
+<div class="stat"><b id="wrong">0</b><span>❌ Wrong (1/3 cut)</span></div>
+<div class="stat"><b id="attempted">0</b><span>📝 Attempted</span></div>
+<div class="stat"><b id="finalScore">0</b><span>🏆 Final Score</span></div>
+</div>
+
+<div class="resultList" id="resultList"></div>
+
+<button class="btn2" onclick="location.reload()">🔄 Re-Test Karein</button>
+<button class="btn3" onclick="window.open('https://gyankshetra.github.io/mock-test--1/','_blank')">🏠 Home Jao</button>
+<p style="text-align:center;font-size:11px;margin-top:12px;color:#666">Gyankshetra • BPSC TRE 4.0 Preparation</p>
+</div>
+
+<script>
+const Q=[
+{q:"Fe + 2HCl → FeCl₂ + H₂ का प्रकार क्या है?",o:["संयोजन","विस्थापन","द्विविस्थापन","अपघटन"],a:1,exp:"एक तत्व दूसरे को हटाता है - विस्थापन"},
+{q:"2H₂ + O₂ → 2H₂O यह कौन सी?",o:["वियोजन","संयोजन","विस्थापन","उदासीनीकरण"],a:1,exp:"दो पदार्थ मिलकर एक - संयोजन"},
+{q:"CaCO₃ → CaO + CO₂ यह है?",o:["संयोजन","अपघटन","विस्थापन","रेडॉक्स"],a:1,exp:"एक से कई टूटना - अपघटन"},
+{q:"NaOH + HCl → NaCl + H₂O यह है?",o:["संयोजन","अपघटन","उदासीनीकरण / द्विविस्थापन","विस्थापन"],a:2,exp:"अम्ल+क्षार=लवण+जल"},
+{q:"Zn + CuSO₄ → ZnSO₄ + Cu यह है?",o:["संयोजन","अपघटन","एकल विस्थापन","द्विविस्थापन"],a:2,exp:"Zn अधिक सक्रिय - Cu को हटाया"}
+];
+let cur=0, ans=Array(5).fill(null), time=300, timerInterval;
+function startTest(){document.getElementById('s1').style.display='none';document.getElementById('s2').style.display='block';renderQ();renderGrid();timerInterval=setInterval(()=>{time--;let m=Math.floor(time/60),s=time%60;document.getElementById('timer').innerText=`⏱ ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;if(time<=0)submitTest();},1000);}
+function renderQ(){document.getElementById('qCount').innerText=`Q${cur+1} of 5`;document.getElementById('qText').innerText=`Q${cur+1}. ${Q[cur].q}`;let h="";["A","B","C","D","E"].forEach((L,i)=>{let label=i<4?Q[cur].o[i]:"Not Attempted (E)";let cls=ans[cur]===i?"opt sel":"opt";h+=`<div class="${cls}" onclick="choose(${i})"><b>${L}.</b> ${label}</div>`;});document.getElementById('opts').innerHTML=h;}
+function choose(i){ans[cur]=i;renderQ();document.getElementById('ansCount').innerText=`${ans.filter(x=>x!==null).length}/5 Answered`;renderGrid();}
+function nextQ(){if(cur<4){cur++;renderQ();}}
+function prevQ(){if(cur>0){cur--;renderQ();}}
+function renderGrid(){let g=document.getElementById('grid');g.innerHTML="";for(let i=0;i<5;i++){let d=document.createElement('div');d.innerText=i+1;if(ans[i]!==null)d.className="done";if(i===cur)d.classList.add('cur');d.onclick=()=>{cur=i;renderQ();};g.appendChild(d);}}
+function submitTest(){
+clearInterval(timerInterval);
+let correct=0,wrong=0,attempt=0,final=0;
+let listHTML="";
+Q.forEach((q,i)=>{
+let user=ans[i], isCorrect=user===q.a;
+if(user!==null && user!==4) attempt++;
+if(isCorrect){correct++; final+=1;}
+else if(user!==null && user!==4){wrong++; final-=0.33;}
+let status=isCorrect?"✅ सही":user===null||user===4?"⚪ छोड़ा":"❌ गलत";
+listHTML+=`<div class="rItem"><span>Q${i+1}: ${q.o[q.a]}<br><small style="color:#666">${q.exp}</small></span><span style="font-weight:700;color:${isCorrect?'green':'red'}">${status}</span></div>`;
+});
+document.getElementById('s2').style.display='none';
+document.getElementById('s3').style.display='block';
+document.getElementById('scoreCircle').innerText=`${correct}/5`;
+document.getElementById('percentText').innerText=`${((correct/5)*100).toFixed(0)}% Score`;
+document.getElementById('correct').innerText=correct;
+document.getElementById('wrong').innerText=wrong;
+document.getElementById('attempted').innerText=attempt;
+document.getElementById('finalScore').innerText=final.toFixed(2);
+document.getElementById('resultList').innerHTML=listHTML;
+window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
